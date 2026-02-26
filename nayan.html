@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>for nayan.</title>
+    <style>
+        :root {
+            --bg-color: #0a111d; /* deep brooding navy */
+            --card-bg: #162235; /* slightly lighter navy for buttons */
+            --text-main: #d1d9e6; /* soft off-white/grey */
+            --text-dim: #708090; /* slate grey */
+            --accent: #4a6fa5; /* muted blue accent */
+        }
+        
+        body { 
+            background-color: var(--bg-color); 
+            font-family: 'Courier New', Courier, monospace; 
+            color: var(--text-main); 
+            padding: 40px 20px; 
+            line-height: 1.8; 
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container { max-width: 700px; width: 100%; text-align: center; }
+        
+        h1 { font-weight: normal; font-size: 1.4rem; margin-bottom: 10px; color: var(--text-dim); letter-spacing: 3px; }
+        p.subtitle { font-size: 0.8rem; margin-bottom: 40px; color: var(--accent); font-style: italic; }
+        
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+            gap: 15px; 
+        }
+
+        .letter-btn { 
+            background: var(--card-bg); 
+            border: 1px solid #1f2d44; 
+            padding: 20px 10px; 
+            cursor: pointer; 
+            transition: all 0.4s ease; 
+            font-size: 0.85rem; 
+            font-family: inherit;
+            color: var(--text-main);
+            border-radius: 2px;
+        }
+
+        .letter-btn:hover { 
+            background: #1f2d44; 
+            border-color: var(--accent); 
+            color: #fff;
+        }
+        
+        #display-area { 
+            margin-top: 50px; 
+            white-space: pre-wrap; 
+            text-align: left; 
+            border-left: 2px solid var(--accent); 
+            padding: 20px 30px; 
+            display: none; 
+            background: #0f172a;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .footer { margin-top: 80px; font-size: 0.7rem; color: var(--text-dim); letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>open when...</h1>
+        <p class="subtitle">a digital sanctuary for my baked bean.</p>
+        
+        <div class="grid" id="button-grid"></div>
+        
+        <div id="display-area"></div>
+
+        <div class="footer">for the boy with the crinkled-eye smile.</div>
+    </div>
+
+    <script>
+        const letters = {
+            "you miss me": "i’m probably missing you more. just close your eyes and think of me hugging you. i’m always a message away.",
+            "you’re sad": "i wish i could take the weight off your shoulders. it’s okay to not be okay. i’m here to sit in the silence with you until it feels better.",
+            "you feel ugly": "impossible. i love the way your eyes crinkle at the corners when you're actually laughing. you're the most beautiful person i know, even when you can't see it.",
+            "you’re happy": "i love this for you. tell me everything? i want to hear that excitement in your voice, even if you keep it quiet.",
+            "you feel insecure": "you're so much more capable than your brain lets you believe. your thoughts are brilliant, and your heart is so kind. i believe in you completely.",
+            "you’re jealous": "there is nobody else, nayan. my eyes only look for you in a room full of people. you’re irreplaceable to me.",
+            "you can’t sleep": "stop overthinking for a second. imagine my hand in yours. breathe. the world can wait until tomorrow.",
+            "you’re stressed": "take a break. your worth isn’t tied to how much you get done today. take a deep breath for me?",
+            "a long day": "park your brain at the door. you did your best. come home to me (mentally or physically) and let’s just exist together.",
+            "we argued": "i’m sorry for my part in it. i love you more than being right. let’s fix this?",
+            "overthinking": "i know your brain is a busy place. come back to the real world for a second. i love you, and everything is going to be okay.",
+            "you feel lonely": "you are never alone. i’m carrying you in my heart everywhere i go.",
+            "need a laugh": "think about that one time we both couldn't stop laughing at something stupid. i love the sound of your laugh, even when it's muffled behind your hand.",
+            "antisocial": "i get it. stay in, recharge your batteries. i’ll be here when you’re ready to talk again. no pressure.",
+            "need a hug": "i am sending you the biggest, warmest virtual hug right now. squeeze a pillow and pretend it’s me.",
+            "doubting love": "it’s constant, nayan. like the stars. even when you can’t see them, they’re there. i’m not going anywhere.",
+            "you're bored": "go find a new rabbit hole to fall into, then come back and explain the whole thing to me. i love listening to you talk about things you like.",
+            "feeling brave": "i’m so proud of you for stepping out of your comfort zone. you’re doing amazing.",
+            "felt like a failure": "failure is just data for an intp, right? learn from it and move on. you’re still a winner in my eyes.",
+            "you're cold": "put on that hoodie i like. imagine me wrapping my arms around you.",
+            "want to give up": "don’t. not yet. i’m your biggest cheerleader. take my hand and let’s try one more time.",
+            "you’re curious": "i’m currently thinking about how lucky i am to have you. that’s the mystery solved.",
+            "unappreciated": "i see everything you do. the quiet ways you care, the way you think of things others don't. i appreciate you so much.",
+            "proud of yourself": "as you should be! you’re brilliant. let’s celebrate.",
+            "the reminder": "i love you because you’re quiet but deep. because your eyes crinkle when you smile. because you’re you.",
+            "feeling nostalgic": "remember our first conversation? i knew then that you were special.",
+            "confidence boost": "you are the smartest person in the room. act like it. i believe in you.",
+            "you're grumpy": "i still love you, even when you’re a little prickly. go have a snack and a nap.",
+            "the future": "i hope i’m in it. i want to see where that big brain of yours takes us.",
+            "need to feel loved": "i love you. i love you. i love you. more than words can put into a code.",
+            "the last day": "another month of loving you down, a lifetime to go. i'm so glad you're mine, nayan."
+        };
+
+        const grid = document.getElementById('button-grid');
+        const display = document.getElementById('display-area');
+
+        Object.keys(letters).forEach(key => {
+            let btn = document.createElement('button');
+            btn.className = 'letter-btn';
+            btn.innerText = key;
+            btn.onclick = () => {
+                display.style.display = 'block';
+                display.innerText = letters[key];
+                display.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+            grid.appendChild(btn);
+        });
+    </script>
+</body>
+</html>
